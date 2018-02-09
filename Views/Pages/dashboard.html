@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <title>Adigami</title>
+      <!-- Compiled and minified CSS -->
+      <link rel="stylesheet" href="../../css/materialize.min.css">
+      <link rel="stylesheet" href="../../css/init.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+      <!-- Compiled and minified JavaScript -->
+      <script src="../../js/materialize.min.js"></script>
+      <!-- Import icons-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+
+    <body class="grey lighten-5">
+      <!--navbar dropdown-->
+      <ul id="navbar-dropdown" class="dropdown-content">
+        <li><a href="../../Views/Pages/setting.html">Settings</a></li>
+        <li class="divider"></li>
+        <li><a href="login.html">Logout</a></li>
+      </ul>
+      <!--side-nav dropdown-->
+      <ul id="side-nav-dropdown" class="dropdown-content">
+        <li><a href="../../Views/Pages/setting.html">Settings</a></li>
+        <li class="divider"></li>
+        <li><a href="login.html">Logout</a></li>
+      </ul>
+      <!--navbar-->
+      <nav class="blue-grey">
+        <div class="class navwrapper container">
+          <img src="../../img/adigami-icon.ico">
+          <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li class="active"><a href="#!">DASHBOARD</a></li>
+            <li><a href="../../Views/Pages/connections.html">CONNECTIONS</a></li>
+            <li><a class="dropdown-button" href="#!" data-activates="navbar-dropdown">USER<i class="material-icons right">arrow_drop_down</i></a></li>
+          </ul>
+          <ul class="side-nav" id="mobile-demo">
+            <br>
+            <li class="active"><a href="#!">Dashboard</a></li>
+            <li><a href="../../Views/Pages/connections.html">Connections</a></li>
+            <li><a class="dropdown-button" href="#!" data-activates="side-nav-dropdown">User<i class="material-icons right">arrow_drop_down</i></a></li>
+          </ul>
+        </div>
+      </nav>
+
+      <br>
+      <div class="container">
+        <div class="row">
+          <div class="col s12">
+            <div class="card">
+              <div class="card-content">
+              <span class="card-title red-text text-accent-2"><i class="material-icons left">image</i>DASHBOARD</span>
+                <div class="row" style="margin-bottom: 0px">
+                  <!-- select connection-->
+                  <div class="input-field col s6">
+                    <select>
+                      <option value="" disabled selected>Choose your connection</option>
+                      <option value="1" selected>AdWords for Acme, Inc.</option>
+                      <option value="2">Zain</option>
+                      <option value="3">Noah Kagan</option>
+                      <option value="4">Contests</option>
+                      <option value="5">Daily Deals</option>
+                      <option value="6">Evergreens</option>
+                      <option value="7">Free Deals</option>
+                    </select>
+                    <label>Dashboard Connection</label>
+                  </div>
+                  <!--slect data range-->
+                  <div class="input-field col s6">
+                    <select>
+                      <option value="" disabled selected>Choose data range</option>
+                      <option value="1">7 Days</option>
+                      <option value="2">14 Days</option>
+                      <option value="3">21 Days</option>
+                      <option value="4" selected>28 Days</option>
+                    </select>
+                    <label>Data Range</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col s4">
+            <div class="card blue-grey">
+              <div class="center card-content white-text">
+                <p><i class="inline-icon material-icons">attach_money</i>Avg. CPM</p>
+                <span class="card-title">42.09</span>
+                <p><i class="inline-icon material-icons">keyboard_arrow_up</i>155.58% last week</p>
+              </div>
+            </div>
+          </div> 
+          <div class="col s4">
+            <div class="card blue-grey">
+              <div class="center card-content white-text">
+                <p><i class="inline-icon material-icons">remove_red_eye</i> Views</p>                
+                <span class="card-title">64,177</span>
+                <p><i class="inline-icon material-icons">keyboard_arrow_down</i>9.95% last week</p>
+              </div>
+            </div>
+          </div>
+          <div class="col s4">
+            <div class="card blue-grey">
+              <div class="center card-content white-text">
+                <p><i class="inline-icon material-icons">mouse</i> Clicks</p>                
+                <span class="card-title">1,446</span>
+                <p><i class="inline-icon material-icons">keyboard_arrow_up</i>92.82% last week</p>
+              </div>
+            </div>
+          </div> 
+        </div>
+          
+        <div class="row">
+          <div class="col s12">
+            <div class="card white">
+              <div class="card-content black-text">
+                <div class="row">
+                  <div id='myfirstchart'></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    
+      <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+      <script type="text/javascript" src="../../js/materialize.min.js"></script>
+      <script src="../../js/init.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+      <script src="../../js/dashboard.js"></script>
+
+
+    </body>
+  </html>
