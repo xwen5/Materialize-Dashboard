@@ -8,7 +8,7 @@ function loadDoc() {
         console.log("The connection state is " + this.readyState + "\ The status is " + this.status)
     
   };
-  xhttp.open("GET", "https://api191.herokuapp.com/posts", true);
+  xhttp.open("GET", "http://restapi-xwen5.c9users.io:8080/posts", true);
   xhttp.send();
 }
 //https://api191.herokuapp.com/posts
