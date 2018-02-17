@@ -1,3 +1,10 @@
+//establishing ajax connection
+
+var responseData= null; // json will be  stored using this global variable.
+var matrixValue =[]; // global variable for storing matrix value based on adigami json file.
+var graphData="";
+var matrix1Select="";
+var matrix2Select="";
 function loadDoc() {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
@@ -8,49 +15,124 @@ function loadDoc() {
         console.log("The connection state is " + this.readyState + "\ The status is " + this.status)
     
   };
-  xhttp.open("GET", "http://restapi-xwen5.c9users.io:8080/posts", true);
+  xhttp.open("GET", "https://api191.herokuapp.com/posts", true);
   xhttp.send();
 }
 //https://api191.herokuapp.com/posts
 //http://restapi-xwen5.c9users.io:8080/posts
+
+//parsing json files and preceed to drawing graphs.
 function jsonParse(xml){
-    console.log("........Parsing Json........")
-    var response =JSON.parse(xml.responseText);
-    console.log(response);
-    draw(response);
-    
+    responseData =JSON.parse(xml.responseText);
+    draw();
 }
 
-function makeTemplate(year,a,b,length){
-   console.log("making graph template");
-   text=" data: [";
-   for (i=0; i<length;i++){
-    text+="{"+"y: "+"\'"+year[i]+"\', a: " + a[i]+","+"b: "+ b[i]+"},"
-       
-   }
-   text+="],"
-   return text;
-    
-    
-    
-    
+
+
+function newChart(element){
+    if (typeof element === 'undefined'){
+        element="myfirstchart"
+    }
+    return `new Morris.Area({
+          element: '${element}',`
 }
-function draw(response){
-    var year= response["0"]["year"];
-    var a= response["0"]["a"];
-    var b= response["0"]["b"];
-    var graph= makeTemplate(year,a,b,year.length)
-    var templateA="new Morris.Area({"+
-          "element:"+ "\'"+"myfirstchart"+"\'"+","
-    var templateB= "xkey: \'y\',"+
-          "ykeys: [\'a\', \'b\'],"+
-          "labels: [\'Series A\', \'Series B\'],"+
-          "lineColors: [\'#607d8b\',\'#ff3321\'],"+
-        "});"    
-    
-  eval(templateA+graph+templateB);          
-    
-         
+//Processing json file and making data template
+function chartData(){
+    var data= ``;
+    for (var item of responseData){
+        data+=`{${chartRow(Object.keys(item),item)}},`;
+        }
+    return `data: [${data} ],`
+
+} 
+//Processing each row data and return string back to chartData();
+function chartRow (keyvalue,item){
+   matrixValue=keyvalue;
+    var data='';
+    for (var i = 0; i < keyvalue.length; i++){
+        key=keyvalue[i];
+            
+            if ( key.valueOf()== "date".valueOf()){
+                data+=`${key}:'${String(item[key])}',`;
+                 
+            }
+            else if (i == keyvalue.length -1 ){
+               data+=`${key}:${Number(item[key])}`;
+            }
+            else{
+            data+=`${key}:${Number(item[key])},`;
+                
+              }
+            }
+   
+    return data;
+}
+
+//Making template that contains attribute of y & x axis, color etc
+function editChart(xkey,ykey1,ykey2){
+     if (typeof ykey1 === 'undefined'){
+        ykey1="";
+    }
+      if (typeof ykey2 === 'undefined'){
+        ykey2="";
+    }
+    return `xkey: '${xkey}',
+          ykeys: ['${ykey1}', '${ykey2}'],
+          labels: ['${ykey1}', '${ykey2}'],
+          lineColors: ['#607d8b','#ff3321'],
+        });`
+}
+//create selection of the matrix
+function drawSelection(){
+   //remove date from matrix array
+   for (var i = 0; i< matrixValue.length; i++){
+       if (matrixValue[i].valueOf() == "date".valueOf()){
+           matrixValue.splice(i,1);
+       }
+   }
+   for (var i = 0; i< matrixValue.length; i++){
+       var select1= document.getElementById("matrix1");
+       var option=  document.createElement("option");
+       option.text= matrixValue[i];
+       option.value= matrixValue[i];
+       select1.appendChild(option);
+   }
+     for (var i = 0; i< matrixValue.length; i++){
+       var select2= document.getElementById("matrix2");
+       var option=  document.createElement("option");
+       option.text= matrixValue[i];
+       option.value= matrixValue[i];
+       select2.appendChild(option);
+   }
+    reloadSelect();// reinitiating selection by calling materialilze jquery method.
+   
+}
+// draw() will be called everytime making ajax calls.
+function draw(){
+    var beginning= newChart();
+    graphData = chartData();
+    var graphAttribute=  editChart("date");
+    drawSelection();
+    eval(beginning+graphData+graphAttribute);        
+}
+
+function changeSelection(select){
+    if (select.id=="matrix1"){
+        matrix1Select=select.value;
+    }
+    else if (select.id=="matrix2"){
+        matrix2Select=select.value;
+    }
+    Redraw();
+}
+//redraw chart everytime selection changes
+function Redraw(){
+    document.getElementById("myfirstchart").innerHTML="";
+    var beginning= newChart();
+    graphData = chartData();
+    var graphAttribute=  editChart("date",matrix1Select,matrix2Select);
+    drawSelection();
+    eval(beginning+graphData+graphAttribute);        
 }
 
 loadDoc();
