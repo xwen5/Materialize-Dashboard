@@ -54,26 +54,21 @@
                 <div class="row" style="margin-bottom: 0px">
                   <!-- select connection-->
                   <div class="input-field col s6">
-                    <select>
+                    <select name="id" onchange="changeConnection(this)">
                       <option value="" disabled selected>Choose your connection</option>
-                      <option value="1" selected>AdWords for Acme, Inc.</option>
-                      <option value="2">Zain</option>
-                      <option value="3">Noah Kagan</option>
-                      <option value="4">Contests</option>
-                      <option value="5">Daily Deals</option>
-                      <option value="6">Evergreens</option>
-                      <option value="7">Free Deals</option>
+                      <option value="1">AdWords for Acme, Inc.</option>
+                     
                     </select>
                     <label>Dashboard Connection</label>
                   </div>
                   <!--slect data range-->
                   <div class="input-field col s6">
-                    <select>
+                    <select name="dataRange" onchange="changeConnection(this)">
                       <option value="" disabled selected>Choose data range</option>
-                      <option value="1">7 Days</option>
-                      <option value="2">14 Days</option>
-                      <option value="3">21 Days</option>
-                      <option value="4" selected>28 Days</option>
+                      <option value="7">7 Days</option>
+                      <option value="14">14 Days</option>
+                      <option value="21">21 Days</option>
+                      <option value="28">28 Days</option>
                     </select>
                     <label>Data Range</label>
                   </div>
@@ -85,53 +80,29 @@
 
         <div class="row">
           <div class="col s4">
-            <div class="card white">
-              <div class="center card-content">
-                <!--
+            <div class="card blue-grey">
+              <div class="center card-content white-text">
                 <p><i class="inline-icon material-icons">attach_money</i>Avg. CPM</p>
                 <span class="card-title">42.09</span>
                 <p><i class="inline-icon material-icons">keyboard_arrow_up</i>155.58% last week</p>
-                -->
-                <div class="input-field">
-                  <select id="matrix1" onchange="changeSelection(this)">
-                    <option value="" disabled selected>Choose data range</option>
-                    
-                  </select>
-                </div>
               </div>
             </div>
           </div> 
           <div class="col s4">
-            <div class="card white">
-              <div class="center card-content">
-                <!--
+            <div class="card blue-grey">
+              <div class="center card-content white-text">
                 <p><i class="inline-icon material-icons">remove_red_eye</i> Views</p>                
                 <span class="card-title">64,177</span>
                 <p><i class="inline-icon material-icons">keyboard_arrow_down</i>9.95% last week</p>
-                -->
-                <div class="input-field">
-                    <select id="matrix2" onchange="changeSelection(this)">
-                      <option value="" disabled selected>Choose data range</option>
-                      
-                    </select>
-                  </div>
               </div>
             </div>
           </div>
           <div class="col s4">
-            <div class="card white">
-              <div class="center card-content">
-                <!--
+            <div class="card blue-grey">
+              <div class="center card-content white-text">
                 <p><i class="inline-icon material-icons">mouse</i> Clicks</p>                
                 <span class="card-title">1,446</span>
                 <p><i class="inline-icon material-icons">keyboard_arrow_up</i>92.82% last week</p>
-                -->
-                <div class="input-field">
-                    <select>
-                      <option value="" disabled selected></option>
-                     
-                    </select>
-                  </div>
               </div>
             </div>
           </div> 
@@ -141,8 +112,27 @@
           <div class="col s12">
             <div class="card white">
               <div class="card-content black-text">
+                  <div= class="row">
+                    <div class="input-field col s4">
+                      <span class="card-title red-text text-accent-2">OVERVIEW</span>
+                    </div>
+                    <!-- select metric-->
+                    <div class="input-field col s4">
+                        <select id="matrix1" onchange="changeSelection(this)">
+                          <option value="" disabled selected>Choose metric</option>
+                        </select>
+                        <label>Metric</label>
+                      </div>
+                      <!--select  metric-->
+                      <div class="input-field col s4">
+                        <select id="matrix2" onchange="changeSelection(this)">
+                          <option value="" disabled selected>Choose metric</option>
+                        </select>
+                        <label>Metric</label>
+                      </div>
+                  </div>
                 <div class="row">
-                  <div id='myfirstchart'></div>
+                  <div id='myfirstchart' style="margin: 0 40px 40px 40px;"></div>
                 </div>
               </div>
             </div>
