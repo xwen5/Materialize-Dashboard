@@ -4,22 +4,39 @@ var responseData= null; // json will be  stored using this global variable.
 var matrixValue =[]; // global variable for storing matrix value based on adigami json file.
 var graphData="";
 var matrix1Select="";
+var connection="";
+var dataRange="";
 var matrix2Select="";
-function loadDoc() {
+
+
+function changeConnection(select){
+    if (select.name=="id"){
+        connection=select.value;
+    }
+    else if (select.name=="dataRange"){
+        dataRange=select.value;
+    }
+    makeUrl();
+}
+function makeUrl(){
+    var url=`https://api191.herokuapp.com/posts${dataRange}`;
+    loadDoc(url);
+}
+
+function loadDoc(url) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       jsonParse(this);
     }
     
-        console.log("The connection state is " + this.readyState + "\ The status is " + this.status)
+    console.log("The connection state is " + this.readyState + "\ The status is " + this.status)
     
   };
-  xhttp.open("GET", "https://api191.herokuapp.com/posts", true);
+  xhttp.open("GET", url, true);
   xhttp.send();
 }
-//https://api191.herokuapp.com/posts
-//http://restapi-xwen5.c9users.io:8080/posts
+
 
 //parsing json files and preceed to drawing graphs.
 function jsonParse(xml){
@@ -33,7 +50,7 @@ function newChart(element){
     if (typeof element === 'undefined'){
         element="myfirstchart"
     }
-    return `new Morris.Area({
+    return `new Morris.Line({
           element: '${element}',`
 }
 //Processing json file and making data template
@@ -109,6 +126,8 @@ function drawSelection(){
 }
 // draw() will be called everytime making ajax calls.
 function draw(){
+    document.getElementById("myfirstchart").innerHTML="";
+    matrixValue=[];
     var beginning= newChart();
     graphData = chartData();
     var graphAttribute=  editChart("date");
@@ -135,4 +154,5 @@ function Redraw(){
     eval(beginning+graphData+graphAttribute);        
 }
 
-loadDoc();
+
+
