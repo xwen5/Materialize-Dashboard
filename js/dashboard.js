@@ -107,6 +107,8 @@ function drawSelection(){
            matrixValue.splice(i,1);
        }
    }
+   document.getElementById("matrix1").options.length = 0;
+   document.getElementById("matrix2").options.length = 0;
    for (var i = 0; i< matrixValue.length; i++){
        var select1= document.getElementById("matrix1");
        var option=  document.createElement("option");
