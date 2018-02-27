@@ -56,7 +56,7 @@ function newChart(element){
 //Processing json file and making data template
 function chartData(){
     var data= ``;
-    for (var item of responseData){
+    for (var item of responseData.graph){
         data+=`{${chartRow(Object.keys(item),item)}},`;
         }
     return `data: [${data} ],`
@@ -153,6 +153,5 @@ function Redraw(){
     drawSelection();
     eval(beginning+graphData+graphAttribute);        
 }
-
 
 
