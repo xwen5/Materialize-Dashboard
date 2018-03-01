@@ -14,5 +14,9 @@ $(document).ready(function(){
   });
 
 function reloadSelect(){
-    $('select').material_select();//will be called by dashboard.js after dynamically create selection.
+    $('select').material_select();
+    
+}
+function destroySelect(){
+    $('select').material_select('destroy');
 }
