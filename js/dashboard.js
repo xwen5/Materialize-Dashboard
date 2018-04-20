@@ -96,8 +96,8 @@ function editChart(xkey,ykey1,ykey2){
     return `xkey: '${xkey}',
           ykeys: ['${ykey1}', '${ykey2}'],
           labels: ['${ykey1}', '${ykey2}'],
-          lineColors: ['#59BFBB','#67A7A4'],
-          barColors:['#59BFBB','#67A7A4'],
+          lineColors: ['#59bfbb','8386cc'],
+          barColors:['#59bfbb','8386cc'],
         });`
 }
 //create selection of the matrix
@@ -170,5 +170,6 @@ function Redraw(){
     //drawSelection();
     eval(beginning+graphData+graphAttribute);        
 }
+
 
 
