@@ -50,7 +50,7 @@ function newChart(element){
     if (typeof element === 'undefined'){
         element="myfirstchart"
     }
-    return `new Morris.Bar({
+    return `new Morris.Line({
           element: '${element}',`
 }
 //Processing json file and making data template
