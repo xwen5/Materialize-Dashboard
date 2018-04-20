@@ -1,10 +1,174 @@
-var $jscomp=$jscomp||{};$jscomp.scope={};$jscomp.ASSUME_ES5=!1;$jscomp.ASSUME_NO_NATIVE_MAP=!1;$jscomp.ASSUME_NO_NATIVE_SET=!1;$jscomp.defineProperty=$jscomp.ASSUME_ES5||"function"==typeof Object.defineProperties?Object.defineProperty:function(a,b,c){a!=Array.prototype&&a!=Object.prototype&&(a[b]=c.value)};$jscomp.getGlobal=function(a){return"undefined"!=typeof window&&window===a?a:"undefined"!=typeof global&&null!=global?global:a};$jscomp.global=$jscomp.getGlobal(this);$jscomp.SYMBOL_PREFIX="jscomp_symbol_";
-$jscomp.initSymbol=function(){$jscomp.initSymbol=function(){};$jscomp.global.Symbol||($jscomp.global.Symbol=$jscomp.Symbol)};$jscomp.Symbol=function(){var a=0;return function(b){return $jscomp.SYMBOL_PREFIX+(b||"")+a++}}();
-$jscomp.initSymbolIterator=function(){$jscomp.initSymbol();var a=$jscomp.global.Symbol.iterator;a||(a=$jscomp.global.Symbol.iterator=$jscomp.global.Symbol("iterator"));"function"!=typeof Array.prototype[a]&&$jscomp.defineProperty(Array.prototype,a,{configurable:!0,writable:!0,value:function(){return $jscomp.arrayIterator(this)}});$jscomp.initSymbolIterator=function(){}};$jscomp.arrayIterator=function(a){var b=0;return $jscomp.iteratorPrototype(function(){return b<a.length?{done:!1,value:a[b++]}:{done:!0}})};
-$jscomp.iteratorPrototype=function(a){$jscomp.initSymbolIterator();a={next:a};a[$jscomp.global.Symbol.iterator]=function(){return this};return a};$jscomp.makeIterator=function(a){$jscomp.initSymbolIterator();var b=a[Symbol.iterator];return b?b.call(a):$jscomp.arrayIterator(a)};var responseData=null,matrixValue=[],graphData="",matrix1Select="",connection="",dataRange="",matrix2Select="";
-function changeConnection(a){"id"==a.name?connection=a.value:"dataRange"==a.name&&(dataRange=a.value);makeUrl()}function makeUrl(){loadDoc("https://api191.herokuapp.com/posts"+dataRange)}function loadDoc(a){var b=new XMLHttpRequest;b.onreadystatechange=function(){4==b.readyState&&200==b.status&&jsonParse(this)};b.open("GET",a,!0);b.send()}function jsonParse(a){responseData=JSON.parse(a.responseText);draw()}
-function newChart(a){"undefined"===typeof a&&(a="myfirstchart");return"new Morris.Line({\n          element: '"+a+"',"}function chartData(){for(var a="",b=$jscomp.makeIterator(responseData.graph),c=b.next();!c.done;c=b.next())c=c.value,a+="{"+chartRow(Object.keys(c),c)+"},";return"data: ["+a+" ],"}
-function chartRow(a,b){matrixValue=a;for(var c="",d=0;d<a.length;d++)key=a[d],c=key.valueOf()=="date".valueOf()?c+(key+":'"+String(b[key])+"',"):d==a.length-1?c+(key+":"+Number(b[key])):c+(key+":"+Number(b[key])+",");return c}function editChart(a,b,c){"undefined"===typeof b&&(b="");"undefined"===typeof c&&(c="");return"xkey: '"+a+"',\n          ykeys: ['"+b+"', '"+c+"'],\n          labels: ['"+b+"', '"+c+"'],\n          lineColors: ['#59BFBB','#67A7A4'],\n        });"}
-function drawSelection(){for(var a=0;a<matrixValue.length;a++)matrixValue[a].valueOf()=="date".valueOf()&&matrixValue.splice(a,1);destroySelect();for(a=0;a<matrixValue.length;a++){var b=document.getElementById("matrix1"),c=document.createElement("option");c.text=matrixValue[a];c.value=matrixValue[a];b.appendChild(c)}for(a=0;a<matrixValue.length;a++)b=document.getElementById("matrix2"),c=document.createElement("option"),c.text=matrixValue[a],c.value=matrixValue[a],b.appendChild(c);reloadSelect();drawBox()}
-function drawBox(){var a=document.getElementById("box1"),b=document.getElementById("box2"),c=document.getElementById("box3"),d=responseData.matrix;[a,b,c].forEach(function(a){a.children[0].textContent=d[a.id].title;a.children[1].textContent=d[a.id].data})}function draw(){document.getElementById("myfirstchart").innerHTML="";matrixValue=[];var a=newChart();graphData=chartData();var b=editChart("date",matrix1Select,matrix2Select);drawSelection();eval(a+graphData+b)}
-function changeSelection(a){"matrix1"==a.id?matrix1Select=a.value:"matrix2"==a.id&&(matrix2Select=a.value);Redraw()}function Redraw(){document.getElementById("myfirstchart").innerHTML="";var a=newChart();graphData=chartData();var b=editChart("date",matrix1Select,matrix2Select);eval(a+graphData+b)};
+//establishing ajax connection
+
+var responseData= null; // json will be  stored using this global variable.
+var matrixValue =[]; // global variable for storing matrix value based on adigami json file.
+var graphData="";
+var matrix1Select="";
+var connection="";
+var dataRange="";
+var matrix2Select="";
+
+
+function changeConnection(select){
+    if (select.name=="id"){
+        connection=select.value;
+    }
+    else if (select.name=="dataRange"){
+        dataRange=select.value;
+    }
+    makeUrl();
+}
+function makeUrl(){
+    var url=`https://api191.herokuapp.com/posts${dataRange}`;
+    loadDoc(url);
+}
+
+function loadDoc(url) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      jsonParse(this);
+    }
+    
+   
+    
+  };
+  xhttp.open("GET", url, true);
+  xhttp.send();
+}
+
+
+//parsing json files and preceed to drawing graphs.
+function jsonParse(xml){
+    responseData =JSON.parse(xml.responseText);
+    draw();
+}
+
+
+
+function newChart(element){
+    if (typeof element === 'undefined'){
+        element="myfirstchart"
+    }
+    return `new Morris.Bar({
+          element: '${element}',`
+}
+//Processing json file and making data template
+function chartData(){
+    var data= ``;
+    for (var item of responseData.graph){
+        data+=`{${chartRow(Object.keys(item),item)}},`;
+        }
+    return `data: [${data} ],`
+
+} 
+//Processing each row data and return string back to chartData();
+function chartRow (keyvalue,item){
+   matrixValue=keyvalue;
+    var data='';
+    for (var i = 0; i < keyvalue.length; i++){
+        key=keyvalue[i];
+            
+            if ( key.valueOf()== "date".valueOf()){
+                data+=`${key}:'${String(item[key])}',`;
+                 
+            }
+            else if (i == keyvalue.length -1 ){
+               data+=`${key}:${Number(item[key])}`;
+            }
+            else{
+            data+=`${key}:${Number(item[key])},`;
+                
+              }
+            }
+   
+    return data;
+}
+
+//Making template that contains attribute of y & x axis, color etc
+function editChart(xkey,ykey1,ykey2){
+     if (typeof ykey1 === 'undefined'){
+        ykey1="";
+    }
+      if (typeof ykey2 === 'undefined'){
+        ykey2="";
+    }
+    return `xkey: '${xkey}',
+          ykeys: ['${ykey1}', '${ykey2}'],
+          labels: ['${ykey1}', '${ykey2}'],
+          lineColors: ['#59BFBB','#67A7A4'],
+          barColors:['#59BFBB','#67A7A4'],
+        });`
+}
+//create selection of the matrix
+function drawSelection(){
+   //remove date from matrix array
+   for (var i = 0; i< matrixValue.length; i++){
+       if (matrixValue[i].valueOf() == "date".valueOf()){
+           matrixValue.splice(i,1);
+       }
+   }
+  
+   destroySelect();
+   for (var i = 0; i< matrixValue.length; i++){
+       var select1= document.getElementById("matrix1");
+       var option=  document.createElement("option");
+       option.text= matrixValue[i];
+       option.value= matrixValue[i];
+       select1.appendChild(option);
+   }
+     for (var i = 0; i< matrixValue.length; i++){
+       var select2= document.getElementById("matrix2");
+       var option=  document.createElement("option");
+       option.text= matrixValue[i];
+       option.value= matrixValue[i];
+       select2.appendChild(option);
+   }
+    reloadSelect();// reinitiating selection by calling materialilze jquery method.
+    drawBox();
+   
+}
+
+function drawBox(){
+var box1=document.getElementById("box1");
+var box2=document.getElementById("box2");
+var box3=document.getElementById("box3");
+var boxData=responseData.matrix;
+new Array(box1,box2,box3).forEach(function(item){
+    item.children[0].textContent=boxData[item.id]["title"];
+    item.children[1].textContent=boxData[item.id]["data"];
+});
+}
+
+// draw() will be called everytime making ajax calls.
+function draw(){
+    document.getElementById("myfirstchart").innerHTML="";
+    matrixValue=[];
+    var beginning= newChart();
+    graphData = chartData();
+    var graphAttribute=  editChart("date",matrix1Select,matrix2Select);
+    drawSelection();
+    console.log(graphData);
+    eval(beginning+graphData+graphAttribute);        
+}
+
+function changeSelection(select){
+    if (select.id=="matrix1"){
+        matrix1Select=select.value;
+    }
+    else if (select.id=="matrix2"){
+        matrix2Select=select.value;
+    }
+    Redraw();
+}
+//redraw chart everytime selection changes
+function Redraw(){
+    document.getElementById("myfirstchart").innerHTML="";
+    var beginning= newChart();
+    graphData = chartData();
+    var graphAttribute=  editChart("date",matrix1Select,matrix2Select);
+    //drawSelection();
+    eval(beginning+graphData+graphAttribute);        
+}
+
+
